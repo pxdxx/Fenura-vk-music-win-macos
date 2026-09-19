@@ -149,6 +149,12 @@ npm run dist       # установщик в windows/dist
 
 Замечания и пулреквесты приветствуются. Если что-то не работает, откройте [issue](https://github.com/pxdxx/Fenura-vk-music-win-macos/issues) и опишите систему, версию Fenura и что именно произошло.
 
+## Связь
+
+Telegram - [@pxdxz](https://t.me/pxdxz)
+Youtube - [Tractor](https://www.youtube.com/@pxdxxz)
+Email - rasputikovv@gmail.com
+
 ## Лицензия
 
 [MIT](LICENSE) © 2026 pxdxx

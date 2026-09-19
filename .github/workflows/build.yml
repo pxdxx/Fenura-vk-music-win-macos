@@ -42,6 +42,13 @@ jobs:
           $p = Start-Process -FilePath "dist\win-unpacked\Fenura.exe" -ArgumentList "--smoke-test","--demo-login","--out=$PWD\smoke-unpacked" -PassThru -Wait
           if ($p.ExitCode -ne 0) { Get-Content smoke-unpacked\report.json -ErrorAction SilentlyContinue; exit 1 }
 
+      - name: Real mode test (window visibility, VK login window, login completion)
+        shell: pwsh
+        run: |
+          $p = Start-Process -FilePath "dist\win-unpacked\Fenura.exe" -ArgumentList "--smoke-real","--out=$PWD\smoke-real" -PassThru -Wait
+          if (Test-Path smoke-real\report.json) { Get-Content smoke-real\report.json }
+          if ($p.ExitCode -ne 0) { exit 1 }
+
       - name: Install with the installer and smoke test the installed app
         shell: pwsh
         run: |
@@ -61,6 +68,7 @@ jobs:
           path: |
             windows/smoke-unpacked
             windows/smoke-installed
+            windows/smoke-real
           if-no-files-found: warn
 
       - name: Upload installer

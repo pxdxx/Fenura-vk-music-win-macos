@@ -4,9 +4,11 @@ const path = require('path');
 const { app, BrowserWindow, Menu, ipcMain, nativeImage, session, shell } = require('electron');
 const { MusicClient, setBrowserUserAgent } = require('./constants');
 const settings = require('./settings');
+const { log } = require('./log');
 
 const args = process.argv.slice(1);
 const isSmoke = args.includes('--smoke-test');
+const isRealSmoke = args.includes('--smoke-real');
 const isDemo = args.includes('--demo') || args.includes('--demo-login') || isSmoke || Boolean(process.env.FENURA_DEMO);
 const isMac = process.platform === 'darwin';
 const isWin = process.platform === 'win32';
@@ -25,18 +27,23 @@ let service = null;
 let store = null;
 let login = null;
 
-if (!isDemo && !app.requestSingleInstanceLock()) {
+const gotLock = isDemo || isRealSmoke || app.requestSingleInstanceLock();
+if (!gotLock) {
+  // Уже запущена другая копия: она сама выйдет на передний план (см. second-instance).
   app.quit();
 }
 
-if (isDemo) {
-  app.setPath('userData', path.join(app.getPath('temp'), `fenura-demo-${process.pid}`));
+if (isDemo || isRealSmoke) {
+  app.setPath('userData', path.join(app.getPath('temp'), `fenura-${isRealSmoke ? 'real' : 'demo'}-${process.pid}`));
 }
 
 app.setAppUserModelId('com.fenura.app');
 // Плавный старт: не ждём, пока GPU-процесс проверит редкие функции, и не душим скрытые окна.
 app.commandLine.appendSwitch('disable-features', 'CalculateNativeWinOcclusion');
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
+
+process.on('uncaughtException', (error) => log('uncaughtException', error));
+process.on('unhandledRejection', (error) => log('unhandledRejection', error instanceof Error ? error : String(error)));
 
 function send(channel, payload) {
   if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send(channel, payload);
@@ -81,14 +88,34 @@ function createWindow() {
       additionalArguments: [
         `--fenura-platform=${process.platform}`,
         `--fenura-demo=${isDemo ? 1 : 0}`,
-        `--fenura-test=${isSmoke ? 1 : 0}`
+        `--fenura-test=${isSmoke || isRealSmoke ? 1 : 0}`
       ]
     }
   });
 
   if (saved.maximized) mainWindow.maximize();
+  // Окно показываем по первому кадру, но не зависим от него: если событие не придёт, покажем по загрузке страницы
+  // или по таймеру, чтобы окно не осталось невидимым при живом процессе.
+  const reveal = (reason) => {
+    if (isSmoke || !mainWindow || mainWindow.isDestroyed()) return;
+    if (!mainWindow.isVisible()) {
+      mainWindow.show();
+      log('main window shown by', reason);
+    }
+    if (mainWindow.isMinimized()) mainWindow.restore();
+  };
   mainWindow.once('ready-to-show', () => {
-    if (!isSmoke) mainWindow.show();
+    log('main window ready-to-show');
+    reveal('ready-to-show');
+  });
+  mainWindow.webContents.once('did-finish-load', () => setTimeout(() => reveal('did-finish-load'), 400));
+  setTimeout(() => reveal('timer'), 3000).unref();
+  mainWindow.webContents.on('did-finish-load', () => log('main window did-finish-load'));
+  mainWindow.webContents.on('did-fail-load', (_e, code, description) => log('main window did-fail-load', code, description));
+  mainWindow.webContents.on('render-process-gone', (_e, details) => log('render-process-gone', details));
+  mainWindow.webContents.on('unresponsive', () => log('main window unresponsive'));
+  mainWindow.webContents.on('console-message', (_e, level, message, line, source) => {
+    if (level >= 2) log('renderer console', level, message, source + ':' + line);
   });
   mainWindow.on('close', () => {
     if (mainWindow.isMinimized()) return;
@@ -194,6 +221,7 @@ function registerIpc() {
   }));
   handle('app:ready', (report) => {
     if (isSmoke) require('./test-driver').run(mainWindow, report, args, service);
+    if (isRealSmoke) require('./real-driver').run({ getWindow: () => mainWindow, login, store, report, args });
   });
 }
 
@@ -211,12 +239,16 @@ function buildMenu() {
 }
 
 app.on('second-instance', () => {
-  if (!mainWindow) return;
+  log('second instance requested');
+  if (!mainWindow || mainWindow.isDestroyed()) return;
   if (mainWindow.isMinimized()) mainWindow.restore();
+  if (!mainWindow.isVisible()) mainWindow.show();
   mainWindow.focus();
 });
 
 app.whenReady().then(() => {
+  if (!gotLock) return;
+  log('app ready', app.getVersion(), process.platform, process.versions.electron);
   setBrowserUserAgent(session.defaultSession.getUserAgent());
   session.defaultSession.setUserAgent(MusicClient.userAgent);
   buildMenu();

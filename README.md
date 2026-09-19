@@ -149,10 +149,6 @@ npm run dist       # установщик в windows/dist
 
 Замечания и пулреквесты приветствуются. Если что-то не работает, откройте [issue](https://github.com/pxdxx/Fenura-vk-music-win-macos/issues) и опишите систему, версию Fenura и что именно произошло.
 
-## Благодарности
-
-Дизайн вдохновлён [Apple Music в macOS Tahoe](https://hicks.design/journal/apple-music-in-tahoe) и [Daft Music](https://staging.macstories.net/reviews/a-fresh-spin-on-apple-music-exploring-daft-musics-liquid-glass-design/). Способ доступа к музыке опирается на идеи [Meridius](https://github.com/PurpleHorrorRus/Meridius) и [EasyVK-AudioAPI](https://github.com/PurpleHorrorRus/EasyVK-AudioAPI). Список сторонних компонентов в [NOTICE.md](NOTICE.md).
-
 ## Лицензия
 
 [MIT](LICENSE) © 2026 pxdxx

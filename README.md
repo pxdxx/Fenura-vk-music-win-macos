@@ -151,9 +151,9 @@ npm run dist       # установщик в windows/dist
 
 ## Связь
 
-Telegram - [@pxdxz](https://t.me/pxdxz)
-Youtube - [Tractor](https://www.youtube.com/@pxdxxz)
-Email - rasputikovv@gmail.com
+- Telegram - [@pxdxz](https://t.me/pxdxz)
+- Youtube - [Tractor](https://www.youtube.com/@pxdxxz)
+- Email - rasputikovv@gmail.com
 
 ## Лицензия
 

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: http:; media-src 'self' data: blob: https: http:; connect-src https: http: data: blob:; font-src 'self'; worker-src 'self' blob:">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fenura</title>
+  <link rel="stylesheet" href="vendor/fonts.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app" class="app">
+    <div class="atmosphere" aria-hidden="true">
+      <div class="blob blob-a"></div>
+      <div class="blob blob-b"></div>
+      <div class="blob blob-c"></div>
+    </div>
+    <div class="dragbar" aria-hidden="true"></div>
+    <div id="root" class="root"></div>
+  </div>
+  <script src="vendor/hls.min.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

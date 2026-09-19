@@ -1,0 +1,134 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    name: Windows (exe)
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: windows
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: windows/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build installer
+        run: npm run dist
+
+      - name: Smoke test of the unpacked app
+        shell: pwsh
+        run: |
+          $p = Start-Process -FilePath "dist\win-unpacked\Fenura.exe" -ArgumentList "--smoke-test","--demo-login","--out=$PWD\smoke-unpacked" -PassThru -Wait
+          if ($p.ExitCode -ne 0) { Get-Content smoke-unpacked\report.json -ErrorAction SilentlyContinue; exit 1 }
+
+      - name: Install with the installer and smoke test the installed app
+        shell: pwsh
+        run: |
+          $installer = Get-ChildItem dist\Fenura-Setup-*.exe | Select-Object -First 1
+          $target = Join-Path $env:RUNNER_TEMP "FenuraInstalled"
+          Start-Process -FilePath $installer.FullName -ArgumentList "/S","/D=$target" -Wait
+          if (-not (Test-Path "$target\Fenura.exe")) { throw "Installer did not create Fenura.exe" }
+          if (-not (Test-Path "$target\Uninstall Fenura.exe")) { throw "Installer did not create the uninstaller" }
+          $p = Start-Process -FilePath "$target\Fenura.exe" -ArgumentList "--smoke-test","--out=$PWD\smoke-installed" -PassThru -Wait
+          if ($p.ExitCode -ne 0) { Get-Content smoke-installed\report.json -ErrorAction SilentlyContinue; exit 1 }
+
+      - name: Upload smoke test screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-smoke-test
+          path: |
+            windows/smoke-unpacked
+            windows/smoke-installed
+          if-no-files-found: warn
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fenura-Setup-windows
+          path: windows/dist/Fenura-Setup-*.exe
+
+      - name: Attach installer to the release
+        if: github.event_name == 'release'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $file = (Get-ChildItem dist\Fenura-Setup-*.exe | Select-Object -First 1).FullName
+          gh release upload "${{ github.event.release.tag_name }}" $file --clobber --repo "${{ github.repository }}"
+
+  macos:
+    name: macOS (dmg)
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build universal app
+        run: |
+          xcodebuild -project Fenura.xcodeproj -scheme Fenura -configuration Release \
+            -derivedDataPath "$RUNNER_TEMP/derived" -destination 'generic/platform=macOS' \
+            ARCHS="arm64 x86_64" ONLY_ACTIVE_ARCH=NO \
+            CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=YES \
+            build | tail -n 25
+          APP="$RUNNER_TEMP/derived/Build/Products/Release/Fenura.app"
+          test -d "$APP"
+          xattr -cr "$APP"
+          codesign --force --deep --sign - --entitlements Fenura/Fenura.entitlements --options runtime "$APP"
+          codesign --verify --deep --strict "$APP"
+          echo "Architectures: $(lipo -archs "$APP/Contents/MacOS/Fenura")"
+          cp -R "$APP" "$RUNNER_TEMP/Fenura.app"
+
+      - name: Create dmg
+        run: |
+          VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$RUNNER_TEMP/Fenura.app/Contents/Info.plist")
+          STAGE="$RUNNER_TEMP/dmg"
+          mkdir -p "$STAGE"
+          cp -R "$RUNNER_TEMP/Fenura.app" "$STAGE/"
+          ln -s /Applications "$STAGE/Applications"
+          hdiutil create -volname "Fenura" -srcfolder "$STAGE" -ov -format UDZO -fs HFS+ "Fenura-$VERSION-macOS.dmg"
+          hdiutil verify "Fenura-$VERSION-macOS.dmg"
+          hdiutil attach "Fenura-$VERSION-macOS.dmg" -nobrowse -readonly
+          test -d "/Volumes/Fenura/Fenura.app"
+          hdiutil detach "/Volumes/Fenura"
+          ls -la Fenura-*.dmg
+
+      - name: Launch check
+        run: |
+          open -n "$RUNNER_TEMP/Fenura.app"
+          sleep 6
+          pgrep -x Fenura
+          pkill -x Fenura
+
+      - name: Upload dmg
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fenura-dmg-macos
+          path: Fenura-*-macOS.dmg
+
+      - name: Attach dmg to the release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${{ github.event.release.tag_name }}" Fenura-*-macOS.dmg --clobber --repo "${{ github.repository }}"

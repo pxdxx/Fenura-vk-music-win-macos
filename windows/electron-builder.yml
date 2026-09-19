@@ -1,0 +1,35 @@
+appId: com.fenura.app
+productName: Fenura
+copyright: Copyright © 2026 pxdxx
+artifactName: Fenura-Setup-${version}.${ext}
+directories:
+  output: dist
+  buildResources: build
+files:
+  - package.json
+  - src/**/*
+  - "!src/**/*.map"
+asar: true
+compression: maximum
+electronLanguages:
+  - ru
+  - en-US
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: build/icon.ico
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: always
+  createStartMenuShortcut: true
+  shortcutName: Fenura
+  installerIcon: build/icon.ico
+  uninstallerIcon: build/icon.ico
+  installerHeaderIcon: build/icon.ico
+  deleteAppDataOnUninstall: false
+  runAfterFinish: true
+  language: "1049"

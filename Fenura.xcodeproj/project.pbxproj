@@ -1,0 +1,314 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A02000000000000000000001 /* FenuraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03000000000000000000001 /* FenuraApp.swift */; };
+		A02000000000000000000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03000000000000000000002 /* ContentView.swift */; };
+		A02000000000000000000003 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03000000000000000000003 /* Theme.swift */; };
+		A02000000000000000000004 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03000000000000000000004 /* Models.swift */; };
+		A02000000000000000000005 /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03000000000000000000005 /* KeychainStore.swift */; };
+		A02000000000000000000006 /* VKAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03000000000000000000006 /* VKAPI.swift */; };
+		A02000000000000000000007 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03000000000000000000007 /* SessionStore.swift */; };
+		A02000000000000000000008 /* PlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03000000000000000000008 /* PlayerService.swift */; };
+		A02000000000000000000009 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03000000000000000000009 /* AppModel.swift */; };
+		A0200000000000000000000A /* ArtworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0300000000000000000000A /* ArtworkView.swift */; };
+		A0200000000000000000000B /* TrackRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0300000000000000000000B /* TrackRow.swift */; };
+		A0200000000000000000000C /* PlayerBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0300000000000000000000C /* PlayerBar.swift */; };
+		A0200000000000000000000D /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0300000000000000000000D /* SidebarView.swift */; };
+		A0200000000000000000000E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0300000000000000000000E /* LoginView.swift */; };
+		A0200000000000000000000F /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0300000000000000000000F /* LibraryView.swift */; };
+		A02000000000000000000011 /* CaptchaWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03000000000000000000013 /* CaptchaWebView.swift */; };
+		A02000000000000000000012 /* AuthWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03000000000000000000014 /* AuthWebView.swift */; };
+		A02000000000000000000014 /* VKWebMusic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03000000000000000000015 /* VKWebMusic.swift */; };
+		A02000000000000000000010 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A03000000000000000000010 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A01000000000000000000006 /* Fenura.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fenura.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A03000000000000000000001 /* FenuraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FenuraApp.swift; sourceTree = "<group>"; };
+		A03000000000000000000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A03000000000000000000003 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		A03000000000000000000004 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		A03000000000000000000005 /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
+		A03000000000000000000006 /* VKAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKAPI.swift; sourceTree = "<group>"; };
+		A03000000000000000000007 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		A03000000000000000000008 /* PlayerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerService.swift; sourceTree = "<group>"; };
+		A03000000000000000000009 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		A0300000000000000000000A /* ArtworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkView.swift; sourceTree = "<group>"; };
+		A0300000000000000000000B /* TrackRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackRow.swift; sourceTree = "<group>"; };
+		A0300000000000000000000C /* PlayerBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerBar.swift; sourceTree = "<group>"; };
+		A0300000000000000000000D /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
+		A0300000000000000000000E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		A0300000000000000000000F /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		A03000000000000000000013 /* CaptchaWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptchaWebView.swift; sourceTree = "<group>"; };
+		A03000000000000000000014 /* AuthWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthWebView.swift; sourceTree = "<group>"; };
+		A03000000000000000000015 /* VKWebMusic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKWebMusic.swift; sourceTree = "<group>"; };
+		A03000000000000000000010 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A03000000000000000000011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A03000000000000000000012 /* Fenura.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fenura.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A01000000000000000000005 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A01000000000000000000007 /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				A01000000000000000000008 /* Fenura */,
+				A01000000000000000000009 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A01000000000000000000008 /* Fenura */ = {
+			isa = PBXGroup;
+			children = (
+				A03000000000000000000001 /* FenuraApp.swift */,
+				A03000000000000000000002 /* ContentView.swift */,
+				A03000000000000000000003 /* Theme.swift */,
+				A03000000000000000000004 /* Models.swift */,
+				A03000000000000000000005 /* KeychainStore.swift */,
+				A03000000000000000000006 /* VKAPI.swift */,
+				A03000000000000000000007 /* SessionStore.swift */,
+				A03000000000000000000008 /* PlayerService.swift */,
+				A03000000000000000000009 /* AppModel.swift */,
+				A0300000000000000000000A /* ArtworkView.swift */,
+				A0300000000000000000000B /* TrackRow.swift */,
+				A0300000000000000000000C /* PlayerBar.swift */,
+				A0300000000000000000000D /* SidebarView.swift */,
+				A0300000000000000000000E /* LoginView.swift */,
+				A0300000000000000000000F /* LibraryView.swift */,
+				A03000000000000000000013 /* CaptchaWebView.swift */,
+				A03000000000000000000014 /* AuthWebView.swift */,
+				A03000000000000000000015 /* VKWebMusic.swift */,
+				A03000000000000000000010 /* Assets.xcassets */,
+				A03000000000000000000011 /* Info.plist */,
+				A03000000000000000000012 /* Fenura.entitlements */,
+			);
+			path = Fenura;
+			sourceTree = "<group>";
+		};
+		A01000000000000000000009 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A01000000000000000000006 /* Fenura.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A01000000000000000000002 /* Fenura */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A01000000000000000000011 /* Build configuration list for PBXNativeTarget "Fenura" */;
+			buildPhases = (
+				A01000000000000000000003 /* Sources */,
+				A01000000000000000000005 /* Frameworks */,
+				A01000000000000000000004 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Fenura;
+			productName = Fenura;
+			productReference = A01000000000000000000006 /* Fenura.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A01000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					A01000000000000000000002 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = A01000000000000000000010 /* Build configuration list for PBXProject "Fenura" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = ru;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				ru,
+				Base,
+			);
+			mainGroup = A01000000000000000000007 /* Root */;
+			productRefGroup = A01000000000000000000009 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A01000000000000000000002 /* Fenura */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A01000000000000000000004 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A02000000000000000000010 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A01000000000000000000003 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A02000000000000000000001 /* FenuraApp.swift in Sources */,
+				A02000000000000000000002 /* ContentView.swift in Sources */,
+				A02000000000000000000003 /* Theme.swift in Sources */,
+				A02000000000000000000004 /* Models.swift in Sources */,
+				A02000000000000000000005 /* KeychainStore.swift in Sources */,
+				A02000000000000000000006 /* VKAPI.swift in Sources */,
+				A02000000000000000000007 /* SessionStore.swift in Sources */,
+				A02000000000000000000008 /* PlayerService.swift in Sources */,
+				A02000000000000000000009 /* AppModel.swift in Sources */,
+				A0200000000000000000000A /* ArtworkView.swift in Sources */,
+				A0200000000000000000000B /* TrackRow.swift in Sources */,
+				A0200000000000000000000C /* PlayerBar.swift in Sources */,
+				A0200000000000000000000D /* SidebarView.swift in Sources */,
+				A0200000000000000000000E /* LoginView.swift in Sources */,
+				A0200000000000000000000F /* LibraryView.swift in Sources */,
+				A02000000000000000000011 /* CaptchaWebView.swift in Sources */,
+				A02000000000000000000012 /* AuthWebView.swift in Sources */,
+				A02000000000000000000014 /* VKWebMusic.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A01000000000000000000012 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A01000000000000000000013 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		A01000000000000000000014 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Fenura/Fenura.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 8;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Fenura/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fenura.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A01000000000000000000015 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Fenura/Fenura.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 8;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Fenura/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fenura.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A01000000000000000000010 /* Build configuration list for PBXProject "Fenura" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A01000000000000000000012 /* Debug */,
+				A01000000000000000000013 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A01000000000000000000011 /* Build configuration list for PBXNativeTarget "Fenura" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A01000000000000000000014 /* Debug */,
+				A01000000000000000000015 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A01000000000000000000001 /* Project object */;
+}

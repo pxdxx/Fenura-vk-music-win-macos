@@ -1,0 +1,29 @@
+{
+  "name": "fenura",
+  "productName": "Fenura",
+  "version": "1.1.0",
+  "description": "Fenura: музыкальный плеер для ВКонтакте на Windows",
+  "main": "src/main/main.js",
+  "author": "pxdxx",
+  "license": "MIT",
+  "homepage": "https://github.com/pxdxx/Fenura-vk-music-win-macos",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pxdxx/Fenura-vk-music-win-macos.git"
+  },
+  "private": true,
+  "scripts": {
+    "postinstall": "node scripts/vendor.js",
+    "start": "electron .",
+    "demo": "electron . --demo",
+    "test": "node --test test/*.test.js",
+    "dist": "electron-builder --win nsis --x64 --publish never"
+  },
+  "devDependencies": {
+    "@fontsource-variable/nunito": "^5.3.0",
+    "electron": "44.4.3",
+    "electron-builder": "^26.15.3",
+    "hls.js": "^1.7.3",
+    "lucide-static": "^1.47.0"
+  }
+}

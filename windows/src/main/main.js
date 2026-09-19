@@ -37,10 +37,27 @@ if (isDemo || isRealSmoke) {
   app.setPath('userData', path.join(app.getPath('temp'), `fenura-${isRealSmoke ? 'real' : 'demo'}-${process.pid}`));
 }
 
+// Если видеодрайвер не тянет ускорение, Chromium может так и не показать окно. После первого сбоя GPU-процесса
+// запоминаем это и стартуем с программной отрисовкой.
+if (!isDemo && !isRealSmoke && (settings.read().disableGpu || args.includes('--disable-gpu'))) {
+  app.disableHardwareAcceleration();
+}
+
 app.setAppUserModelId('com.fenura.app');
 // Плавный старт: не ждём, пока GPU-процесс проверит редкие функции, и не душим скрытые окна.
 app.commandLine.appendSwitch('disable-features', 'CalculateNativeWinOcclusion');
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
+
+app.on('child-process-gone', (_event, details) => {
+  log('child-process-gone', details);
+  const failed = ['crashed', 'launch-failed', 'abnormal-exit', 'integrity-failure'].includes(details.reason);
+  if (details.type === 'GPU' && failed && !isDemo && !isRealSmoke && !settings.read().disableGpu) {
+    settings.update({ disableGpu: true });
+    log('GPU process failed, restarting with software rendering');
+    app.relaunch();
+    app.exit(0);
+  }
+});
 
 process.on('uncaughtException', (error) => log('uncaughtException', error));
 process.on('unhandledRejection', (error) => log('unhandledRejection', error instanceof Error ? error : String(error)));
@@ -117,7 +134,10 @@ function createWindow() {
   mainWindow.webContents.on('console-message', (_e, level, message, line, source) => {
     if (level >= 2) log('renderer console', level, message, source + ':' + line);
   });
+  mainWindow.on('show', () => log('main window show', mainWindow.getBounds()));
+  mainWindow.on('hide', () => log('main window hide'));
   mainWindow.on('close', () => {
+    log('main window close');
     if (mainWindow.isMinimized()) return;
     const maximized = mainWindow.isMaximized();
     settings.update({ maximized, bounds: maximized ? saved.bounds : mainWindow.getBounds() });
@@ -167,6 +187,7 @@ function handle(channel, fn) {
     try {
       return { ok: true, value: await fn(...params) };
     } catch (error) {
+      log('ipc error', channel, (error && error.message) || String(error));
       return { ok: false, error: (error && error.message) || String(error) };
     }
   });
@@ -185,6 +206,7 @@ function registerIpc() {
     };
   });
   handle('session:login', () => {
+    log('login window requested');
     if (service.demo) return service.login();
     login.present();
     return undefined;

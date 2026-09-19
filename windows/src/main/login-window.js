@@ -3,6 +3,7 @@
 const path = require('path');
 const { BrowserWindow, session: electronSession } = require('electron');
 const { MusicClient, PARTITION } = require('./constants');
+const { log } = require('./log');
 
 // Вход выполняется на настоящей странице ВКонтакте: пароль, 2FA, QR и капчу показывает сам сайт.
 // Мы ждём, пока появится кука remixsid или токен в адресе blank.html.
@@ -20,6 +21,16 @@ function sessionFromURL(raw) {
     userId: parseInt(values.get('user_id') || '', 10) || 0,
     userAgent: MusicClient.userAgent
   };
+}
+
+// В журнал попадает только адрес без параметров: в них бывают токены.
+function hostOf(url) {
+  try {
+    const parsed = new URL(url);
+    return parsed.host + parsed.pathname;
+  } catch {
+    return '?';
+  }
 }
 
 function looksLoggedIn(url) {
@@ -136,11 +147,15 @@ class VKLoginWindow {
 
   observe(wc) {
     const consume = (_event, url) => this.consume(url);
+    wc.on('did-fail-load', (_event, code, description, url, isMainFrame) => {
+      if (isMainFrame) log('login page failed to load', code, description, hostOf(url));
+    });
     wc.on('will-navigate', consume);
     wc.on('will-redirect', consume);
     wc.on('did-redirect-navigation', consume);
     wc.on('did-navigate-in-page', consume);
     wc.on('did-navigate', (_event, url) => {
+      log('login page', hostOf(url));
       this.consume(url);
       this.onStatus?.(prettyStatus(url));
     });
@@ -199,8 +214,11 @@ class VKLoginWindow {
     this.finished = true;
     clearInterval(this.watcher);
     this.watcher = null;
+    log('login finished', session.token.startsWith('pending-') ? 'by cookies' : 'by token in address');
     this.onSession?.(session);
-    this.dismiss();
+    // Закрываем окна на следующем витке цикла: complete() может вызываться прямо из события навигации,
+    // а разрушать окно внутри собственного события небезопасно.
+    setImmediate(() => this.dismiss());
   }
 }
 

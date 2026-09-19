@@ -7,6 +7,7 @@ const { app, safeStorage, session: electronSession } = require('electron');
 const { PARTITION, MusicClient } = require('./constants');
 const { VKAPI } = require('./vk-api');
 const { sleep } = require('./util');
+const { log } = require('./log');
 
 const FILE = 'session.bin';
 
@@ -78,7 +79,9 @@ class SessionStore extends EventEmitter {
     try {
       let working = { ...next };
       working.cookieHeader = (await harvestWithRetry()) || working.cookieHeader;
+      log('finishOAuth: cookies', working.cookieHeader ? 'found' : 'missing');
       working = await this.api.resolveMusicSession(working);
+      log('finishOAuth: music token received');
       let user;
       try {
         user = await this.api.profile(working);
@@ -88,7 +91,9 @@ class SessionStore extends EventEmitter {
       this.session = working;
       this.profile = user;
       this.persist();
+      log('finishOAuth: session saved');
     } catch (error) {
+      log('finishOAuth failed', error.message);
       this.errorMessage = error.message;
     } finally {
       this.isBusy = false;
@@ -114,6 +119,7 @@ class SessionStore extends EventEmitter {
       }
       if (upgraded.token.startsWith('vk1.')) this.errorMessage = null;
     } catch (error) {
+      log('prepareAudioSession failed', error.message);
       this.errorMessage = error.message;
     }
     this.notify();
